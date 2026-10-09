@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SalesInsight - Live Sales Analytics Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><span class="logo">&#9670;</span> SalesInsight</div>
+  <nav>
+    <a href="#kpis" class="active">&#9632; Overview</a>
+    <a href="#charts">&#9650; Charts</a>
+    <a href="#insights">&#9733; Insights</a>
+    <a href="#compare">&#8644; Compare</a>
+    <a href="#data">&#9776; Data &amp; Sources</a>
+  </nav>
+  <p class="side-note">Data Mining &amp; Warehousing mini-project<br>Extract &rarr; Transform &rarr; Load &rarr; Analyse</p>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <button id="menuBtn" class="btn ghost menu-btn" aria-label="Menu">&#9776;</button>
+    <div class="title"><h1>Sales Analytics Dashboard</h1>
+      <div class="status-line"><span id="sourceBadge" class="badge">Sample data</span><span id="datasetInfo" class="muted"></span></div></div>
+    <div class="actions">
+      <button id="connectBtn" class="btn primary">Connect API</button>
+      <button id="refreshBtn" class="btn" disabled>&#8635; Refresh Data</button>
+      <button id="themeBtn" class="btn ghost" aria-label="Toggle dark mode">&#9790; Dark</button>
+    </div>
+  </header>
+
+  <div id="messages" aria-live="polite"></div>
+
+  <section class="card api-card" id="data">
+    <div class="api-row">
+      <div><h3>Data source</h3>
+        <div class="seg" id="sourceSwitch">
+          <button data-src="api" disabled>Live API</button>
+          <button data-src="csv" disabled>Uploaded CSV</button>
+          <button data-src="sample" class="on">Sample data</button>
+        </div></div>
+      <div class="api-meta">
+        <div>API status: <b id="apiStatus" class="s-off">Not connected</b></div>
+        <div>Last successful fetch: <b id="lastFetch">-</b></div>
+        <div class="muted small" id="sourceNote"></div>
+      </div>
+      <div class="file-actions">
+        <label class="btn" for="csvInput">&#8679; Upload CSV</label>
+        <input type="file" id="csvInput" accept=".csv,text/csv" hidden>
+        <button id="exportBtn" class="btn">&#8681; Export CSV</button>
+        <button id="restoreBtn" class="btn">Restore Sample Data</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card filters">
+    <label>From <input type="date" id="fFrom"></label>
+    <label>To <input type="date" id="fTo"></label>
+    <label class="grow">Search product <input type="search" id="fSearch" placeholder="e.g. backpack"></label>
+    <label>Category <select id="fCategory"></select></label>
+    <label>Region <select id="fRegion"></select></label>
+    <button id="clearBtn" class="btn">Clear Filters</button>
+  </section>
+
+  <div id="loading" class="loading hidden"><div class="spinner"></div><span id="loadingText">Loading...</span></div>
+  <div id="empty" class="card empty hidden"></div>
+
+  <div id="content">
+    <section id="kpis" class="kpis"></section>
+
+    <section id="charts" class="grid3">
+      <div class="card chart-card wide"><h3>Monthly revenue trend</h3><div class="chart-box"><canvas id="trendChart"></canvas></div><p class="na hidden"></p></div>
+      <div class="card chart-card"><h3>Revenue by region</h3><div class="chart-box"><canvas id="regionChart"></canvas></div><p class="na hidden"></p></div>
+      <div class="card chart-card wide"><h3>Revenue by category</h3><div class="chart-box"><canvas id="categoryChart"></canvas></div><p class="na hidden"></p></div>
+    </section>
+
+    <section id="insights" class="card"><h3>Automatic insights</h3><ul id="insightList" class="insights"></ul></section>
+
+    <section id="compare" class="card">
+      <h3>Sales comparison</h3>
+      <div id="periodCompare" class="cmp-grid"></div>
+      <div class="cmp-controls">
+        <label>Compare by
+          <select id="cmpDim"><option value="month">Months</option><option value="category">Categories</option><option value="region">Regions</option></select></label>
+        <label>A <select id="cmpA"></select></label>
+        <label>B <select id="cmpB"></select></label>
+      </div>
+      <div id="cmpResult" class="cmp-grid"></div>
+      <div class="chart-box small"><canvas id="cmpChart"></canvas></div>
+    </section>
+  </div>
+  <footer class="muted small">SalesInsight &middot; Live API data is mock/demo data (Fake Store API). Sample data is synthetic.</footer>
+</div>
+<script src="/vendor/chart.umd.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
